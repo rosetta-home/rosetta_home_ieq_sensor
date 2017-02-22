@@ -1,8 +1,8 @@
-defmodule DeviceManager.Device.IEQ.Sensor do
+defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
   use GenServer
   require Logger
-
-  @behaviour DeviceManager.Behaviour.IEQ
+  alias Cicada.{DeviceManager, VoiceControl}
+  @behaviour Cicada.DeviceManager.Behaviour.IEQ
 
   def start_link(id, device) do
     GenServer.start_link(__MODULE__, {id, device}, name: id)
@@ -80,10 +80,10 @@ defmodule DeviceManager.Device.IEQ.Sensor do
 
 end
 
-defmodule DeviceManager.Discovery.IEQ.Sensor do
-  use DeviceManager.Discovery
+defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
+  use Cicada.DeviceManager.Discovery
   require Logger
-  alias DeviceManager.Device.IEQ
+  alias Cicada.DeviceManager.Device.IEQ
 
   defmodule EventHandler do
     use GenEvent
@@ -97,7 +97,6 @@ defmodule DeviceManager.Discovery.IEQ.Sensor do
     def handle_event(_device, parent) do
       {:ok, parent}
     end
-
   end
 
   def register_callbacks do

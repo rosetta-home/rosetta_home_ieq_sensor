@@ -10,27 +10,14 @@ defmodule RosettaHomeIeqSensor.Mixfile do
      deps: deps()]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
-    # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :ieq_gateway]]
+    [extra_applications: [:logger, :cicada, :ieq_gateway]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:ieq_gateway, "~> 0.1.4"},
-      {:cicada, github: "rosetta-home/cicada", branch: "dependency"}
+      {:cicada, github: "rosetta-home/cicada", branch: "dependency",  optional: true}
     ]
   end
 end
