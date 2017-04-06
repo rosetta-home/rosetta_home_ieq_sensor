@@ -102,11 +102,11 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
   def register_callbacks do
     Logger.info "Starting IEQ Sensor Listener"
     IEQGateway.EventManager.add_handler(EventHandler)
-    {:ok, []}
+    IEQ.Sensor
   end
 
   def handle_info(%IEQGateway.IEQStation.State{} = device, state) do
-    {:noreply, handle_device(device, IEQ.Sensor, state)}
+    {:noreply, handle_device(device, state)}
   end
 
   def handle_info(_device, state) do
