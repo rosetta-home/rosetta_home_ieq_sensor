@@ -81,9 +81,9 @@ defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
 end
 
 defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
-  use Cicada.DeviceManager.Discovery
   require Logger
   alias Cicada.DeviceManager.Device.IEQ
+  use Cicada.DeviceManager.Discovery, module: IEQ.Sensor
 
   defmodule EventHandler do
     use GenEvent
@@ -102,7 +102,7 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
   def register_callbacks do
     Logger.info "Starting IEQ Sensor Listener"
     IEQGateway.EventManager.add_handler(EventHandler)
-    IEQ.Sensor
+    %{}
   end
 
   def handle_info(%IEQGateway.IEQStation.State{} = device, state) do
