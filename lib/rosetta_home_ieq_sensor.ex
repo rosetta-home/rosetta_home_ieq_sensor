@@ -97,11 +97,17 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
     def handle_event(_device, parent) do
       {:ok, parent}
     end
+
+    def terminate(reason, parent) do
+      Logger.info "IEQ Sensor EventHandler Terminating: #{inspect reason}"
+      :ok
+    end
+
   end
 
   def register_callbacks do
     Logger.info "Starting IEQ Sensor Listener"
-    IEQGateway.EventManager.add_handler(EventHandler)
+    IEQGateway.Events |> GenEvent.add_mon_handler(EventHandler, self())
     %{}
   end
 
