@@ -16,7 +16,7 @@ defmodule RosettaHomeIeqSensor.Mixfile do
 
   defp deps do
     [
-      {:ieq_gateway, "~> 0.1.4"},
+      {:ieq_gateway, "~> 0.1.5"},
       {:cicada, github: "rosetta-home/cicada",  optional: true}
     ]
   end

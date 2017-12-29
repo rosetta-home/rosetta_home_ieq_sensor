@@ -8,6 +8,10 @@ defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
     GenServer.start_link(__MODULE__, {id, device}, name: id)
   end
 
+  def set_mode(pid, mode) do
+    GenServer.cast(pid, {:set_mode, mode})
+  end
+
   def readings(pid) do
     GenServer.call(pid, :readings)
   end
@@ -76,6 +80,10 @@ defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
 
   def handle_call(:readings, _from, device) do
     {:reply, device.state, device}
+  end
+
+  def handle_cast({:set_mode, mode}, device) do
+    IEQGateway.IEQStation.set_mode(device.device_pid, %IEQGateway.Modes{} |> Map.get(mode))
   end
 
 end
