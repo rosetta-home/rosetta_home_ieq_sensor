@@ -84,6 +84,7 @@ defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
 
   def handle_cast({:set_mode, mode}, device) do
     IEQGateway.IEQStation.set_mode(device.device_pid, %IEQGateway.Modes{} |> Map.get(mode))
+    {:noreply, device}
   end
 
 end
