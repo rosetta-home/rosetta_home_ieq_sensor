@@ -8,6 +8,10 @@ defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
     GenServer.start_link(__MODULE__, {id, device}, name: id)
   end
 
+  def set_mode(pid, mode) do
+    GenServer.cast(pid, {:set_mode, mode})
+  end
+
   def readings(pid) do
     GenServer.call(pid, :readings)
   end
@@ -78,6 +82,11 @@ defmodule Cicada.DeviceManager.Device.IEQ.Sensor do
     {:reply, device.state, device}
   end
 
+  def handle_cast({:set_mode, mode}, device) do
+    IEQGateway.IEQStation.set_mode(device.device_pid, %IEQGateway.Modes{} |> Map.get(mode))
+    {:noreply, device}
+  end
+
 end
 
 defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
@@ -97,13 +106,24 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
     def handle_event(_device, parent) do
       {:ok, parent}
     end
+
+    def terminate(reason, parent) do
+      Logger.info "IEQ Sensor EventHandler Terminating: #{inspect reason}"
+      :ok
+    end
+
   end
 
   def register_callbacks do
+<<<<<<< HEAD
     [tty] = get_tty()
     Logger.info "Starting IEQ Sensor Listener: #{tty}"
     tty |> IEQGateway.Supervisor.start_link()
     IEQGateway.EventManager.add_handler(EventHandler)
+=======
+    Logger.info "Starting IEQ Sensor Listener"
+    IEQGateway.Events |> GenEvent.add_mon_handler(EventHandler, self())
+>>>>>>> d0d13807295e966453e4393b679bacb7c29c1ed6
     %{}
   end
 
