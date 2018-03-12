@@ -115,15 +115,10 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
   end
 
   def register_callbacks do
-<<<<<<< HEAD
     [tty] = get_tty()
     Logger.info "Starting IEQ Sensor Listener: #{tty}"
     tty |> IEQGateway.Supervisor.start_link()
     IEQGateway.EventManager.add_handler(EventHandler)
-=======
-    Logger.info "Starting IEQ Sensor Listener"
-    IEQGateway.Events |> GenEvent.add_mon_handler(EventHandler, self())
->>>>>>> d0d13807295e966453e4393b679bacb7c29c1ed6
     %{}
   end
 
