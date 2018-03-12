@@ -100,7 +100,9 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
   end
 
   def register_callbacks do
-    Logger.info "Starting IEQ Sensor Listener"
+    [tty] = get_tty()
+    Logger.info "Starting IEQ Sensor Listener: #{tty}"
+    tty |> IEQGateway.Supervisor.start_link()
     IEQGateway.EventManager.add_handler(EventHandler)
     %{}
   end
@@ -113,4 +115,18 @@ defmodule Cicada.DeviceManager.Discovery.IEQ.Sensor do
     {:noreply, state}
   end
 
+  def get_tty do
+    Nerves.UART.enumerate |> Enum.flat_map(fn({tty, device}) ->
+      Logger.debug("#{inspect device}")
+      case Map.get(device, :product_id, 0) do
+        24597 ->
+          Logger.debug("Setting IEQ TTY: #{inspect tty}")
+          case String.starts_with?(tty, "/dev") do
+            true -> [tty]
+            false -> ["/dev/#{tty}"]
+          end
+        _ -> []
+      end
+    end)
+  end
 end

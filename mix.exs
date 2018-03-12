@@ -3,7 +3,7 @@ defmodule RosettaHomeIeqSensor.Mixfile do
 
   def project do
     [app: :rosetta_home_ieq_sensor,
-     version: "0.1.0",
+     version: "0.1.1",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -11,12 +11,12 @@ defmodule RosettaHomeIeqSensor.Mixfile do
   end
 
   def application do
-    [extra_applications: [:logger, :cicada, :ieq_gateway]]
+    [extra_applications: [:logger, :cicada]]
   end
 
   defp deps do
     [
-      {:ieq_gateway, "~> 0.1.4"},
+      {:ieq_gateway, "~> 0.1.7"},
       {:cicada, github: "rosetta-home/cicada",  optional: true}
     ]
   end
